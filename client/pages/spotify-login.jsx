@@ -1,4 +1,6 @@
 import React from 'react';
+import { sha256 } from 'js-sha256';
+import { encode } from 'js-base64';
 
 export default class SpotifyLogin extends React.Component {
   constructor(props) {
@@ -30,8 +32,11 @@ export default class SpotifyLogin extends React.Component {
 
   initiateSpotifyLogin() {
     const codeVerifier = this.makeid(this.getRandomInt(43, 128));
-    return codeVerifier;
     // console.log(codeVerifier);
+    const hash = sha256(codeVerifier);
+    const codeChallenge = encode(hash, true);
+    // console.log(codeChallenge);
+    return codeChallenge;
   }
 
   render() {
