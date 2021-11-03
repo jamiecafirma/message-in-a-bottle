@@ -32,11 +32,12 @@ export default class SpotifyLogin extends React.Component {
 
   initiateSpotifyLogin() {
     const codeVerifier = this.makeid(this.getRandomInt(43, 128));
-    // console.log(codeVerifier);
     const hash = sha256(codeVerifier);
     const codeChallenge = encode(hash, true);
-    // console.log(codeChallenge);
-    return codeChallenge;
+    const authState = this.makeid(12);
+    const authURL = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.REACT_APP_SPOTIFY_CLIENT_ID}&redirect_uri=http://localhost:3000/callback&state=${authState}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
+    window.open(authURL);
+
   }
 
   render() {
