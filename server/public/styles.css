@@ -1,0 +1,45 @@
+.justify-center {
+  display: flex;
+  justify-content: center;
+}
+
+.align-center {
+  display: flex;
+  align-items: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.font-size-48 {
+  font-size: 48px;
+}
+
+.font-size-24 {
+  font-size: 24px;
+}
+
+.width-80 {
+  width: 80px;
+}
+
+.non-static {
+  position: relative;
+}
+
+.position-absolute {
+  position: absolute;
+}
+
+.padding-2rem {
+  padding: 2rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.no-margin {
+  margin: 0;
+}
