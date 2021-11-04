@@ -2,8 +2,13 @@ require('dotenv/config');
 const express = require('express');
 const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
+// const uploadsMiddleware = require('./uploads-middleware');
 
 const app = express();
+
+const jsonMiddleware = express.json();
+
+app.use(jsonMiddleware);
 
 app.use(staticMiddleware);
 
