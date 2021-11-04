@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default class SpotifyAuthRedirect extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ export default class SpotifyAuthRedirect extends React.Component {
     const authCode = params.get('code');
 
     const postBody = {
-      client_id: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
+      client_id: process.env.SPOTIFY_CLIENT_ID,
       grant_type: 'authorization_code',
       code: authCode,
       redirect_uri: 'http://localhost:3000/callback',
@@ -43,7 +44,7 @@ export default class SpotifyAuthRedirect extends React.Component {
           const authHeader = {
             headers: { Authorization: 'Bearer ' + accessToken }
           };
-          fetch('https://api.spotify.com/v1/me', authHeader)
+          return fetch('https://api.spotify.com/v1/me', authHeader)
             .then(result => {
               return result.json();
             })
@@ -51,9 +52,6 @@ export default class SpotifyAuthRedirect extends React.Component {
               const username = profile.display_name;
               this.setState({ username: username });
               this.setState({ signedIn: true });
-            })
-            .catch(error => {
-              console.error('There was an unexpected error', error);
             });
         })
         .catch(error => {
@@ -105,7 +103,7 @@ function LoginError(props) {
       <div className="row align-center flex-column position-absolute padding-3rem desktop-style">
         <h1 className="font-size-36 no-margin text-center">Unable to login to Spotify</h1>
         <h2 className="font-size-24 text-center">Click on the parrot to go back!</h2>
-        <a href="http://localhost:3000/"><img src="images/parrot.png" className="width-100" /></a>
+        <Link to="/"><img src="images/parrot.png" className="width-100" /></Link>
       </div>
     </>
   );

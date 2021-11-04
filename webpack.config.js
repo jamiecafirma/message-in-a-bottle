@@ -30,7 +30,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.EnvironmentPlugin(['REACT_APP_SPOTIFY_CLIENT_ID'])
+    new webpack.EnvironmentPlugin(['SPOTIFY_CLIENT_ID'])
   ],
   devtool: 'source-map',
   devServer: {

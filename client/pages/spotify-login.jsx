@@ -3,11 +3,7 @@ import React from 'react';
 export default class SpotifyLogin extends React.Component {
   constructor(props) {
     super(props);
-    this.makeid = this.makeid.bind(this);
-    this.getRandomInt = this.getRandomInt.bind(this);
     this.initiateSpotifyLogin = this.initiateSpotifyLogin.bind(this);
-    this.sha256 = this.sha256.bind(this);
-    this.base64urlencode = this.base64urlencode.bind(this);
   }
 
   makeid(length) {
@@ -47,7 +43,7 @@ export default class SpotifyLogin extends React.Component {
         const authState = this.makeid(12);
         sessionStorage.setItem('spotify-code-verifier', codeVerifier);
         sessionStorage.setItem('spotify-state', authState);
-        const authURL = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.REACT_APP_SPOTIFY_CLIENT_ID}&redirect_uri=http://localhost:3000/callback&state=${authState}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
+        const authURL = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.SPOTIFY_CLIENT_ID}&redirect_uri=http://localhost:3000/callback&state=${authState}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
         window.open(authURL);
       });
   }

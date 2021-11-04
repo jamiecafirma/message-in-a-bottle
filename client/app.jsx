@@ -4,13 +4,6 @@ import SpotifyLogin from './pages/spotify-login';
 import SpotifyAuthRedirect from './pages/spotify-auth-redirect';
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      // route: parseRoute(window.location.hash)
-    };
-  }
-
   render() {
     return (
       <BrowserRouter>
