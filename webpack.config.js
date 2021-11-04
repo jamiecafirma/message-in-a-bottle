@@ -36,6 +36,7 @@ module.exports = {
   devServer: {
     host: '0.0.0.0',
     port: process.env.DEV_SERVER_PORT,
+    historyApiFallback: true,
     static: {
       directory: serverPublicPath,
       publicPath: '/',

@@ -16,12 +16,20 @@
   font-size: 48px;
 }
 
+.font-size-36 {
+  font-size: 36px;
+}
+
 .font-size-24 {
   font-size: 24px;
 }
 
 .width-80 {
   width: 80px;
+}
+
+.width-100 {
+  width: 100px;
 }
 
 .non-static {
@@ -32,8 +40,8 @@
   position: absolute;
 }
 
-.padding-2rem {
-  padding: 2rem;
+.padding-3rem {
+  padding: 3rem;
 }
 
 .text-center {
