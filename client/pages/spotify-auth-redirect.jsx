@@ -4,28 +4,109 @@ export default class SpotifyAuthRedirect extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAuthorizing: true
+      isAuthorizing: true,
+      signedIn: false,
+      username: ''
     };
   }
 
   componentDidMount() {
     const params = new URLSearchParams(window.location.search);
-    const formData = new FormData();
-    params.forEach((value, key) => {
-      formData.append(key, value);
-    });
+    const authCode = params.get('code');
+
+    const postBody = {
+      client_id: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
+      grant_type: 'authorization_code',
+      code: authCode,
+      redirect_uri: 'http://localhost:3000/callback',
+      code_verifier: sessionStorage.getItem('spotify-code-verifier')
+    };
+
+    const checkState = params.get('state');
+    if (checkState !== sessionStorage.getItem('spotify-state')) {
+      return undefined;
+    } else {
+      const init = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;'
+        },
+        body: new URLSearchParams(postBody)
+      };
+      fetch('https://accounts.spotify.com/api/token', init)
+        .then(result => {
+          return result.json();
+        })
+        .then(entry => {
+          const accessInfo = entry;
+          const accessToken = accessInfo.access_token;
+          const authHeader = {
+            headers: { Authorization: 'Bearer ' + accessToken }
+          };
+          fetch('https://api.spotify.com/v1/me', authHeader)
+            .then(result => {
+              return result.json();
+            })
+            .then(profile => {
+              const username = profile.display_name;
+              this.setState({ username: username });
+              this.setState({ signedIn: true });
+            })
+            .catch(error => {
+              console.error('There was an unexpected error', error);
+            });
+        })
+        .catch(error => {
+          console.error('There was an unexpected error', error);
+        });
+    }
   }
 
   render() {
+    let showName;
+    if (!this.state.username) {
+      showName = 'Matey';
+    } else {
+      showName = this.state.username;
+    }
+
+    let loginResult;
+    if (this.state.signedIn) {
+      loginResult = <LoginSuccess name={showName} />;
+    } else {
+      loginResult = <LoginError name={showName} />;
+    }
+
     return (
-      <>
-        <div className="overlay position-absolute"></div>
-        <div className="row align-center flex-column position-absolute padding-3rem desktop-style">
-          <h1 className="font-size-36 no-margin">Logged in as User</h1>
-          <h2 className="font-size-24 text-center">Click on the parrot to create your message!</h2>
-          <a href="#"><img src="images/parrot.png" className="width-100" /></a>
-        </div>
-      </>
+      <div>
+        {loginResult}
+      </div>
     );
   }
+}
+
+function LoginSuccess(props) {
+  return (
+    <>
+      <div className="overlay position-absolute"></div>
+      <div className="row align-center flex-column position-absolute padding-3rem desktop-style">
+        <h1 className="font-size-36 no-margin text-center">Logged in as {props.name}</h1>
+        <h2 className="font-size-24 text-center">Click on the parrot to create your message!</h2>
+        <a href="#"><img src="images/parrot.png" className="width-100" /></a>
+      </div>
+    </>
+  );
+}
+
+function LoginError(props) {
+  return (
+    <>
+      <div className="overlay position-absolute"></div>
+      <div className="row align-center flex-column position-absolute padding-3rem desktop-style">
+        <h1 className="font-size-36 no-margin text-center">Unable to login to Spotify</h1>
+        <h2 className="font-size-24 text-center">Click on the parrot to go back!</h2>
+        <a href="http://localhost:3000/"><img src="images/parrot.png" className="width-100" /></a>
+      </div>
+    </>
+  );
 }
