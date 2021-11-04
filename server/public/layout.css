@@ -1,0 +1,45 @@
+body {
+  background-image: url("images/island-bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  background-position: 55% 0%;
+  font-family: "IM Fell English SC", serif;
+  color: white;
+}
+
+.row {
+  display: flex;
+}
+
+.column-full {
+  width: 100%;
+}
+
+.overlay {
+  width: 100%;
+  height: 100vh;
+  background: rgb(0 0 0);
+  background: linear-gradient(180deg, rgb(0 0 0 / 15%) 66%, rgb(0 0 0 / 0%) 100%);
+}
+
+@media (min-width: 480px) {
+  .overlay {
+    background: rgb(0 0 0);
+    background: linear-gradient(180deg, rgb(0 0 0 / 25%) 66%, rgb(0 0 0 / 0%) 100%);
+  }
+}
+
+@media (min-width: 768px) {
+  .desktop-style {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (min-width: 1200px) {
+  body {
+    background-position: left top;
+  }
+}
