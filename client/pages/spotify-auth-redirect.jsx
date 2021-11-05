@@ -118,24 +118,33 @@ class TestFormData extends React.Component {
 
   sendData(event) {
     // console.log('clicked');
-    const formData = new FormData();
-    const array = [
-      {
-        slideIndex: 0,
-        type: 'caption',
-        content: 'fun day'
+    const newMessage = {
+      mementos: {
+        slides: [
+          {
+            content: 'thisUrl.jpg',
+            slideIndex: '1',
+            type: 'image'
+          },
+          {
+            content: 'why did you do that lmao',
+            slideIndex: '1',
+            type: 'caption'
+          }
+        ]
       },
-      {
-        slideIndex: 0,
-        type: 'title',
-        content: 'this day last year'
-      }
-    ];
-    formData.append('mementos', JSON.stringify(array));
-
+      messageTitle: 'Happy Bday',
+      playlistId: '56Ns4NcqUvb6zEHNQNvIZb',
+      recipientEmail: 'matey@gmail.com',
+      recipientName: 'My Matey',
+      senderName: 'You know who it is ;)'
+    };
     const init = {
       method: 'POST',
-      body: formData
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newMessage)
     };
     fetch('/api/messages', init)
       .then(result => {
