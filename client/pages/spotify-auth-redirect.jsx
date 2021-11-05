@@ -91,6 +91,7 @@ function LoginSuccess(props) {
         <h1 className="font-size-36 no-margin text-center">Logged in as {props.name}</h1>
         <h2 className="font-size-24 text-center">Click on the parrot to create your message!</h2>
         <a href="#"><img src="images/parrot.png" className="width-100" /></a>
+        <TestFormData />
       </div>
     </>
   );
@@ -107,4 +108,52 @@ function LoginError(props) {
       </div>
     </>
   );
+}
+
+class TestFormData extends React.Component {
+  constructor(props) {
+    super(props);
+    this.sendData = this.sendData.bind(this);
+  }
+
+  sendData(event) {
+    // console.log('clicked');
+    const formData = new FormData();
+    const array = [
+      {
+        slideIndex: 0,
+        type: 'caption',
+        content: 'fun day'
+      },
+      {
+        slideIndex: 0,
+        type: 'title',
+        content: 'this day last year'
+      }
+    ];
+    formData.append('mementos', JSON.stringify(array));
+
+    const init = {
+      method: 'POST',
+      body: formData
+    };
+    fetch('/api/messages', init)
+      .then(result => {
+        return result.json();
+      })
+      .then(entry => {
+        // console.log(entry);
+      })
+      .catch(error => {
+        console.error('There was an unexpected error', error);
+      });
+  }
+
+  render() {
+    return (
+      <button onClick={this.sendData}>
+        Send array
+      </button>
+    );
+  }
 }
