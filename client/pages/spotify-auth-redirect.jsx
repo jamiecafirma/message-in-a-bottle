@@ -90,7 +90,7 @@ function LoginSuccess(props) {
       <div className="row align-center flex-column position-absolute padding-3rem desktop-style">
         <h1 className="font-size-36 no-margin text-center">Logged in as {props.name}</h1>
         <h2 className="font-size-24 text-center">Click on the parrot to create your message!</h2>
-        <a href="#"><img src="images/parrot.png" className="width-100" /></a>
+        <Link to="/api/messages"><img src="images/parrot.png" className="width-100" /></Link>
         <TestFormData />
       </div>
     </>
