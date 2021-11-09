@@ -205,6 +205,7 @@ class SlideForm extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleImageUpload = this.handleImageUpload.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handlegetSongId = this.getSongId.bind(this);
     this.state = {
       title: '',
       caption: '',
@@ -216,6 +217,17 @@ class SlideForm extends React.Component {
 
   componentDidUpdate() {
     M.updateTextFields();
+  }
+
+  getSongId(event) {
+    const target = event.target;
+    const value = target.value;
+
+    const splitLink = value.split('track/');
+    const getId = splitLink[1].split('?');
+    const songId = getId[0];
+    return songId;
+
   }
 
   handleImageUpload(event) {
@@ -341,7 +353,7 @@ class SlideForm extends React.Component {
           <div className="row">
             <div className="input-field col s12">
               <input
-                onChange={this.handleChange}
+                onChange={this.getSongId}
                 id="song-id"
                 type="text"
                 name="songId"
