@@ -23,6 +23,13 @@ app.use(staticMiddleware);
 
 app.use(errorMiddleware);
 
+app.get('/api/messages/:bottleId', (req, res, next) => {
+  const bottleId = parseInt(req.params.bottleId);
+  if (!Number.isInteger(bottleId) || bottleId < 1) {
+    throw new ClientError(400, 'bottleId must be a positive integer');
+  }
+});
+
 app.post('/api/uploads', uploadsMiddleware, (req, res, next) => {
   const url = `/images/${req.file.filename}`;
   res.status(201).json({ imageUrl: url });
