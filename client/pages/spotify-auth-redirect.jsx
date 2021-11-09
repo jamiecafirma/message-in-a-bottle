@@ -91,7 +91,6 @@ function LoginSuccess(props) {
         <h1 className="font-size-36 no-margin text-center">Logged in as {props.name}</h1>
         <h2 className="font-size-24 text-center">Click on the parrot to create your message!</h2>
         <Link to="/api/messages"><img src="images/parrot.png" className="width-100" /></Link>
-        <TestFormData />
       </div>
     </>
   );
@@ -108,62 +107,4 @@ function LoginError(props) {
       </div>
     </>
   );
-}
-
-class TestFormData extends React.Component {
-  constructor(props) {
-    super(props);
-    this.sendData = this.sendData.bind(this);
-  }
-
-  sendData(event) {
-    // console.log('clicked');
-    const newMessage = {
-      slides: {
-        mementos: [
-          {
-            title: '',
-            caption: '',
-            image: 'thisUrl.jpg',
-            slideIndex: '1'
-          },
-          {
-            content: 'why did you do that lmao',
-            slideIndex: '1',
-            type: 'caption'
-          }
-        ]
-      },
-      messageTitle: 'Happy Bday',
-      playlistId: '56Ns4NcqUvb6zEHNQNvIZb',
-      recipientEmail: 'matey@gmail.com',
-      recipientName: 'My Matey',
-      senderName: 'You know who it is ;)'
-    };
-    const init = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newMessage)
-    };
-    fetch('/api/messages', init)
-      .then(result => {
-        return result.json();
-      })
-      .then(entry => {
-        // console.log(entry);
-      })
-      .catch(error => {
-        console.error('There was an unexpected error', error);
-      });
-  }
-
-  render() {
-    return (
-      <button onClick={this.sendData}>
-        Send array
-      </button>
-    );
-  }
 }

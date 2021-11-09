@@ -91,7 +91,7 @@ export default class MessageForm extends React.Component {
             <h2 className="font-size-24 text-center">Click on the parrot again to exit!</h2>
           </div>
           <div className="form-modal absolute-center-horizontal">
-            <Link to="/" className="exit-parrot"><img src="images/parrot.png" className="width-100" /></Link>
+            <Link to="/" className="exit-parrot"><img src="/images/parrot.png" className="width-100" /></Link>
             <div className="row align-center mb-1-5rem">
               <p className="black-text no-margin font-size-24 padding-1rem">Number of Slides:</p>
                 <div className="input-field col s2">
