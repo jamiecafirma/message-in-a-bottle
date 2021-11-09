@@ -6,6 +6,7 @@ export default class MessageForm extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
+    this.getPlaylistId = this.getPlaylistId.bind(this);
     this.handleSlideCount = this.handleSlideCount.bind(this);
     this.handlePreviousClick = this.handlePreviousClick.bind(this);
     this.handleNextClick = this.handleNextClick.bind(this);
@@ -18,6 +19,7 @@ export default class MessageForm extends React.Component {
       recipientEmail: '',
       recipientName: '',
       senderName: '',
+      playlistId: '',
       slides: {
         mementos: []
       }
@@ -40,6 +42,15 @@ export default class MessageForm extends React.Component {
     this.setState({
       [name]: value
     });
+  }
+
+  getPlaylistId(event) {
+    const target = event.target;
+    const value = target.value;
+
+    const splitLink = value.split('si=');
+    const playlistId = splitLink[1];
+    return playlistId;
   }
 
   handleMementoSaved(memento) {
@@ -162,11 +173,11 @@ export default class MessageForm extends React.Component {
                 <input
                   id="playlist-id"
                   type="text"
-                  onChange={this.handleChange}
+                  onChange={this.getPlaylistId}
                   name="playlistId"
                   required
                 />
-                <label htmlFor="playlist-id">Message Title</label>
+                <label htmlFor="playlist-id">Spotify Playlist Link</label>
               </div>
             </div>
             <div className="row justify-flex-end pr-1rem">
