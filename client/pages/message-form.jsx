@@ -48,9 +48,13 @@ export default class MessageForm extends React.Component {
     const target = event.target;
     const value = target.value;
 
-    const splitLink = value.split('si=');
-    const playlistId = splitLink[1];
-    return playlistId;
+    const splitLink = value.split('playlist/');
+    const getId = splitLink[1].split('?');
+    const playlistId = getId[0];
+
+    this.setState({
+      playlistId: playlistId
+    });
   }
 
   handleMementoSaved(memento) {
@@ -137,6 +141,7 @@ export default class MessageForm extends React.Component {
                   type="text"
                   maxLength="20"
                   onChange={this.handleChange}
+                  value={this.state.recipientName}
                   name="recipientName"
                   required
                 />
@@ -149,6 +154,7 @@ export default class MessageForm extends React.Component {
                   id="recipient-email"
                   type="email"
                   onChange={this.handleChange}
+                  value={this.state.recipientEmail}
                   name="recipientEmail"
                   required
                 />
@@ -162,6 +168,7 @@ export default class MessageForm extends React.Component {
                   type="text"
                   maxLength="30"
                   onChange={this.handleChange}
+                  value={this.state.messageTitle}
                   name="messageTitle"
                   required
                 />
