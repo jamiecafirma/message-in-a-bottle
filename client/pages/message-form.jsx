@@ -157,6 +157,18 @@ export default class MessageForm extends React.Component {
                 <label htmlFor="message-title">Message Title</label>
               </div>
             </div>
+            <div className="row">
+              <div className="input-field col s12">
+                <input
+                  id="playlist-id"
+                  type="text"
+                  onChange={this.handleChange}
+                  name="playlistId"
+                  required
+                />
+                <label htmlFor="playlist-id">Message Title</label>
+              </div>
+            </div>
             <div className="row justify-flex-end pr-1rem">
               <a onClick={this.handleNextClick} className="waves-effect waves-light btn-large">Next: Slides</a>
             </div>
