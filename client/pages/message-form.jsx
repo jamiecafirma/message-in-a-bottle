@@ -103,7 +103,7 @@ export default class MessageForm extends React.Component {
           <div className="overlay position-absolute"></div>
           <div className="row align-center flex-column position-absolute padding-3rem absolute-center-horizontal">
             <h1 className="font-size-36 no-margin text-center">New Entry</h1>
-            <h2 className="font-size-24 text-center">Click on the parrot again to exit!</h2>
+            <h2 className="font-size-24 text-center padding-1rem no-margin">Click on the parrot again to exit!</h2>
           </div>
           <div className="form-modal absolute-center-horizontal">
             <Link to="/" className="exit-parrot"><img src="/images/parrot.png" className="width-100" /></Link>
@@ -336,6 +336,18 @@ class SlideForm extends React.Component {
                 name="caption"
                 required></textarea>
               <label htmlFor="textarea1">Caption</label>
+            </div>
+          </div>
+          <div className="row">
+            <div className="input-field col s12">
+              <input
+                onChange={this.handleChange}
+                id="song-id"
+                type="text"
+                name="songId"
+                required
+              />
+              <label htmlFor="song-id">Spotify Song Link</label>
             </div>
           </div>
           <div className="row space-between padding-1rem slide-btn">
