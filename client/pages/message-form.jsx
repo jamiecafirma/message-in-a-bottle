@@ -205,11 +205,12 @@ class SlideForm extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleImageUpload = this.handleImageUpload.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.handlegetSongId = this.getSongId.bind(this);
+    this.getSongId = this.getSongId.bind(this);
     this.state = {
       title: '',
       caption: '',
       image: '',
+      song: '',
       slideIndex: this.props.slideIndex
     };
     this.fileInputRef = React.createRef();
@@ -226,8 +227,10 @@ class SlideForm extends React.Component {
     const splitLink = value.split('track/');
     const getId = splitLink[1].split('?');
     const songId = getId[0];
-    return songId;
 
+    this.setState({
+      song: songId
+    });
   }
 
   handleImageUpload(event) {
