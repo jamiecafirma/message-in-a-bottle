@@ -1,6 +1,19 @@
+.slide-btn::after {
+  content: none;
+}
+
 .justify-center {
   display: flex;
   justify-content: center;
+}
+
+.justify-flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.space-between {
+  justify-content: space-between;
 }
 
 .align-center {
@@ -20,8 +33,16 @@
   font-size: 36px;
 }
 
+.font-size-28 {
+  font-size: 28px;
+}
+
 .font-size-24 {
   font-size: 24px;
+}
+
+.font-size-16 {
+  font-size: 16px;
 }
 
 .width-80 {
@@ -40,6 +61,18 @@
   position: absolute;
 }
 
+.position-fixed {
+  position: fixed;
+}
+
+.padding-1rem {
+  padding: 1rem;
+}
+
+.pr-1rem {
+  padding-right: 1rem;
+}
+
 .padding-3rem {
   padding: 3rem;
 }
@@ -50,4 +83,21 @@
 
 .no-margin {
   margin: 0;
+}
+
+.mb-1-5rem {
+  margin-bottom: 1.5rem;
+}
+
+.black-text {
+  color: black;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.exit-parrot {
+  position: absolute;
+  top: -100px;
 }
