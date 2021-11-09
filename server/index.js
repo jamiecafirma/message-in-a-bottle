@@ -29,16 +29,16 @@ app.post('/api/uploads', uploadsMiddleware, (req, res, next) => {
 });
 
 app.post('/api/messages', (req, res, next) => {
-  const { messageTitle, senderName, recipientName, recipientEmail, slides } = req.body;
-  if (!messageTitle || !senderName || !recipientName || !recipientEmail || !slides) {
+  const { messageTitle, senderName, recipientName, recipientEmail, playlistId, slides } = req.body;
+  if (!messageTitle || !senderName || !recipientName || !recipientEmail || !playlistId || !slides) {
     throw new ClientError(400, 'all fields are required');
   }
   const sql = `
-    insert into "bottles" ("messageTitle", "senderName", "recipientName", "recipientEmail", "mementos")
-    values ($1, $2, $3, $4, $5)
+    insert into "bottles" ("messageTitle", "senderName", "recipientName", "recipientEmail", "playlistId", "mementos")
+    values ($1, $2, $3, $4, $5, $6)
     returning *
   `;
-  const params = [messageTitle, senderName, recipientName, recipientEmail, slides];
+  const params = [messageTitle, senderName, recipientName, recipientEmail, playlistId, slides];
   db.query(sql, params)
     .then(result => {
       res.status(201).json(result.rows[0]);

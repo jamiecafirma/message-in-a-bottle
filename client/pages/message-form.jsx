@@ -6,6 +6,7 @@ export default class MessageForm extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
+    this.getPlaylistId = this.getPlaylistId.bind(this);
     this.handleSlideCount = this.handleSlideCount.bind(this);
     this.handlePreviousClick = this.handlePreviousClick.bind(this);
     this.handleNextClick = this.handleNextClick.bind(this);
@@ -18,6 +19,7 @@ export default class MessageForm extends React.Component {
       recipientEmail: '',
       recipientName: '',
       senderName: '',
+      playlistId: '',
       slides: {
         mementos: []
       }
@@ -39,6 +41,19 @@ export default class MessageForm extends React.Component {
 
     this.setState({
       [name]: value
+    });
+  }
+
+  getPlaylistId(event) {
+    const target = event.target;
+    const value = target.value;
+
+    const splitLink = value.split('playlist/');
+    const getId = splitLink[1].split('?');
+    const playlistId = getId[0];
+
+    this.setState({
+      playlistId: playlistId
     });
   }
 
@@ -88,7 +103,7 @@ export default class MessageForm extends React.Component {
           <div className="overlay position-absolute"></div>
           <div className="row align-center flex-column position-absolute padding-3rem absolute-center-horizontal">
             <h1 className="font-size-36 no-margin text-center">New Entry</h1>
-            <h2 className="font-size-24 text-center">Click on the parrot again to exit!</h2>
+            <h2 className="font-size-24 text-center padding-1rem no-margin">Click on the parrot again to exit!</h2>
           </div>
           <div className="form-modal absolute-center-horizontal">
             <Link to="/" className="exit-parrot"><img src="/images/parrot.png" className="width-100" /></Link>
@@ -126,6 +141,7 @@ export default class MessageForm extends React.Component {
                   type="text"
                   maxLength="20"
                   onChange={this.handleChange}
+                  value={this.state.recipientName}
                   name="recipientName"
                   required
                 />
@@ -138,6 +154,7 @@ export default class MessageForm extends React.Component {
                   id="recipient-email"
                   type="email"
                   onChange={this.handleChange}
+                  value={this.state.recipientEmail}
                   name="recipientEmail"
                   required
                 />
@@ -151,10 +168,23 @@ export default class MessageForm extends React.Component {
                   type="text"
                   maxLength="30"
                   onChange={this.handleChange}
+                  value={this.state.messageTitle}
                   name="messageTitle"
                   required
                 />
                 <label htmlFor="message-title">Message Title</label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="input-field col s12">
+                <input
+                  id="playlist-id"
+                  type="text"
+                  onChange={this.getPlaylistId}
+                  name="playlistId"
+                  required
+                />
+                <label htmlFor="playlist-id">Spotify Playlist Link</label>
               </div>
             </div>
             <div className="row justify-flex-end pr-1rem">
@@ -175,10 +205,12 @@ class SlideForm extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleImageUpload = this.handleImageUpload.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.getSongId = this.getSongId.bind(this);
     this.state = {
       title: '',
       caption: '',
       image: '',
+      song: '',
       slideIndex: this.props.slideIndex
     };
     this.fileInputRef = React.createRef();
@@ -186,6 +218,19 @@ class SlideForm extends React.Component {
 
   componentDidUpdate() {
     M.updateTextFields();
+  }
+
+  getSongId(event) {
+    const target = event.target;
+    const value = target.value;
+
+    const splitLink = value.split('track/');
+    const getId = splitLink[1].split('?');
+    const songId = getId[0];
+
+    this.setState({
+      song: songId
+    });
   }
 
   handleImageUpload(event) {
@@ -306,6 +351,18 @@ class SlideForm extends React.Component {
                 name="caption"
                 required></textarea>
               <label htmlFor="textarea1">Caption</label>
+            </div>
+          </div>
+          <div className="row">
+            <div className="input-field col s12">
+              <input
+                onChange={this.getSongId}
+                id="song-id"
+                type="text"
+                name="songId"
+                required
+              />
+              <label htmlFor="song-id">Spotify Song Link</label>
             </div>
           </div>
           <div className="row space-between padding-1rem slide-btn">
