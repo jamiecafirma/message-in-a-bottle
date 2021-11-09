@@ -119,12 +119,13 @@ class TestFormData extends React.Component {
   sendData(event) {
     // console.log('clicked');
     const newMessage = {
-      mementos: {
-        slides: [
+      slides: {
+        mementos: [
           {
-            content: 'thisUrl.jpg',
-            slideIndex: '1',
-            type: 'image'
+            title: '',
+            caption: '',
+            image: 'thisUrl.jpg',
+            slideIndex: '1'
           },
           {
             content: 'why did you do that lmao',

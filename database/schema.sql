@@ -12,7 +12,6 @@ CREATE TABLE "public"."bottles" (
 	"senderName" TEXT NOT NULL,
 	"recipientName" TEXT NOT NULL,
 	"recipientEmail" TEXT NOT NULL,
-	"playlistId" TEXT NOT NULL,
 	"mementos" json NOT NULL,
 	CONSTRAINT "bottles_pk" PRIMARY KEY ("bottleId")
 ) WITH (
