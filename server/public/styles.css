@@ -53,6 +53,10 @@
   width: 100px;
 }
 
+.width-140 {
+  width: 140px;
+}
+
 .non-static {
   position: relative;
 }

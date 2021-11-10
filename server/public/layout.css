@@ -16,6 +16,10 @@ body {
   width: 100%;
 }
 
+.column-half {
+  width: 50%;
+}
+
 .overlay {
   width: 100%;
   height: 100vh;
