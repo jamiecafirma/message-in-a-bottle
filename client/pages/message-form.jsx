@@ -1,6 +1,7 @@
 import React from 'react';
 import M from 'materialize-css';
 import { Link } from 'react-router-dom';
+import AppContext from '../lib/app-context';
 
 export default class MessageForm extends React.Component {
   constructor() {
@@ -261,6 +262,7 @@ class SlideForm extends React.Component {
 
   handleFormSubmit(event) {
     event.preventDefault();
+    const { assignBottleId } = this.context;
     const newMemento = this.state;
     const mementosArr = this.props.handleMemento(newMemento);
     const previousState = this.props.handleSubmit(event);
@@ -278,7 +280,8 @@ class SlideForm extends React.Component {
         return response.json();
       })
       .then(data => {
-        return data;
+        const { bottleId } = data;
+        assignBottleId(bottleId);
       })
       .catch(error => {
         console.error('There was an unexpected error', error);
@@ -376,6 +379,8 @@ class SlideForm extends React.Component {
   }
 
 }
+
+SlideForm.contextType = AppContext;
 
 function RenderList(props) {
   const entries = props.entries;
