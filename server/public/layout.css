@@ -20,6 +20,12 @@ body {
   width: 50%;
 }
 
+.user-action-menu {
+  width: 375px;
+  margin: 0 auto;
+  top: 140px;
+}
+
 .overlay {
   width: 100%;
   height: 100vh;
