@@ -19,7 +19,7 @@ export default class App extends React.Component {
           </Route>
           <Route path="/menu" element={<UserActionMenu />}>
           </Route>
-          <Route exact path="/api/messages/:bottleId" element={<ViewMessage />}>
+          <Route exact path="/view" element={<ViewMessage />}>
           </Route>
         </Routes>
       </BrowserRouter>

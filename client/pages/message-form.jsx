@@ -316,6 +316,7 @@ class SlideForm extends React.Component {
                 id="slide-title"
                 type="text"
                 name="title"
+                maxLength="30"
                 required
               />
               <label htmlFor="slide-title">Slide Title</label>
@@ -347,7 +348,7 @@ class SlideForm extends React.Component {
                 value={this.state.caption}
                 id="textarea1"
                 className="materialize-textarea"
-                maxLength="120"
+                maxLength="80"
                 name="caption"
                 required></textarea>
               <label htmlFor="textarea1">Caption</label>
