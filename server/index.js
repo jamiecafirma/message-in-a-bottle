@@ -21,13 +21,27 @@ app.use(jsonMiddleware);
 
 app.use(staticMiddleware);
 
-app.use(errorMiddleware);
-
 app.get('/api/messages/:bottleId', (req, res, next) => {
   const bottleId = parseInt(req.params.bottleId);
   if (!Number.isInteger(bottleId) || bottleId < 1) {
     throw new ClientError(400, 'bottleId must be a positive integer');
   }
+  const sql = `
+    select *
+        from "bottles"
+      where "bottleId" = $1;
+  `;
+  const params = [bottleId];
+  db.query(sql, params)
+    .then(result => {
+      const [bottle] = result.rows;
+      if (!bottle) {
+        throw new ClientError(404, `cannot find bottle with bottleId ${bottleId}`);
+      } else {
+        res.json(bottle);
+      }
+    })
+    .catch(err => next(err));
 });
 
 app.post('/api/uploads', uploadsMiddleware, (req, res, next) => {
@@ -52,6 +66,8 @@ app.post('/api/messages', (req, res, next) => {
     })
     .catch(err => next(err));
 });
+
+app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
