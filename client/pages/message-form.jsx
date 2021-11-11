@@ -306,7 +306,7 @@ class SlideForm extends React.Component {
       let nextButton = <a data-button="next" onClick={this.handleClick} className="waves-effect waves-light btn-small button-resize">Next Slide</a>;
 
       if (this.props.isLast) {
-        nextButton = <button onClick={this.handleFormSubmit} type="submit" className="waves-effect waves-light btn-small button-resize">Done</button>;
+        nextButton = <Link to="/menu"><button onClick={this.handleFormSubmit} type="submit" className="waves-effect waves-light btn-small button-resize">Done</button></Link>;
       }
       return (
         <div className="form-modal absolute-center-horizontal">
