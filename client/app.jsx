@@ -5,13 +5,13 @@ import SpotifyLogin from './pages/spotify-login';
 import SpotifyAuthRedirect from './pages/spotify-auth-redirect';
 import MessageForm from './pages/message-form';
 import UserActionMenu from './pages/user-action-menu';
-import ViewMessage from './pages/view-message';
+import ViewMessageWithParams from './pages/view-message';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentBottleId: 3
+      currentBottleId: 0
     };
     this.assignBottleId = this.assignBottleId.bind(this);
   }
@@ -21,9 +21,9 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { bottleId } = this.state;
+    const { currentBottleId } = this.state;
     const { assignBottleId } = this;
-    const contextValue = { bottleId, assignBottleId };
+    const contextValue = { currentBottleId, assignBottleId };
     return (
       <AppContext.Provider value={contextValue}>
         <>
@@ -37,7 +37,7 @@ export default class App extends React.Component {
               </Route>
               <Route path="/menu" element={<UserActionMenu />}>
               </Route>
-              <Route path="/messages/:bottleId" element={<ViewMessage />}>
+              <Route path="/messages/:bottleId" element={<ViewMessageWithParams />}>
               </Route>
             </Routes>
           </BrowserRouter>

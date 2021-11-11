@@ -1,4 +1,5 @@
 import React from 'react';
+import AppContext from '../lib/app-context';
 import { Link } from 'react-router-dom';
 
 export default class UserActionMenu extends React.Component {
@@ -13,7 +14,7 @@ export default class UserActionMenu extends React.Component {
           <div className="column-half">
             <div className="row flex-column align-center">
               <h1 className="font-size-36 no-margin text-center">View</h1>
-              <Link to="/messages/:bottleId"><img src="/images/message-in-a-bottle.png" className="width-120" /></Link>
+              <Link to={`/messages/${this.context.currentBottleId}`}><img src="/images/message-in-a-bottle.png" className="width-120" /></Link>
             </div>
           </div>
         </div>
@@ -21,3 +22,5 @@ export default class UserActionMenu extends React.Component {
     );
   }
 }
+
+UserActionMenu.contextType = AppContext;
