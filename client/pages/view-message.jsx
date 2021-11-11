@@ -6,7 +6,7 @@ export default class ViewMessage extends React.Component {
     super(props);
     this.state = {
       bottleId: 3, // this should be this.context.bottleId
-      message: null
+      message: {}
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -35,10 +35,11 @@ export default class ViewMessage extends React.Component {
   }
 
   render() {
+    const { messageTitle, recipientName, senderName } = this.state.message;
     return (
       <>
         <div className="overlay position-absolute"></div>
-        <IntroSlide />
+        <IntroSlide title={messageTitle} sender={senderName} recipient={recipientName} />
         <RenderList entries={mementos} />
       </>
     );
@@ -48,9 +49,9 @@ export default class ViewMessage extends React.Component {
 function IntroSlide(props) {
   return (
     <div className="message-slide intro-slide-bg pt-75">
-      <h1 className="font-size-48 text-center">Title of Message is super long</h1>
-      <h2 className="font-size-36 text-center">from Sender</h2>
-      <h2 className="font-size-36 text-center">to Recipient</h2>
+      <h1 className="font-size-48 text-center">{props.title}</h1>
+      <h2 className="font-size-36 text-center">{`from ${props.sender}`}</h2>
+      <h2 className="font-size-36 text-center">{`to ${props.recipient}`}</h2>
       <div className="row mt-40">
         <div className="column-half text-right">
           <img src="/images/parrot.png" className="width-140" />
@@ -90,24 +91,24 @@ function RenderList(props) {
 
 const mementos = [
   {
-    caption: 'me and the besties',
-    image: '/images/image-1636492462766.jpeg',
+    caption: 'please work',
+    image: '/images/image-1636588944759.gif',
     slideIndex: 1,
-    song: '5Apl955QftdfReNESDmJhR',
-    title: 'title uno'
-  },
-  {
-    caption: 'jellyfish jam',
-    image: '/images/image-1636492531131.png',
-    slideIndex: 2,
     song: '5E91lFuxUUIGTnsO18VbS8',
-    title: 'another one'
+    title: 'un'
   },
   {
-    caption: 'mr. krabs??????',
-    image: '/images/image-1636492614585.png',
+    caption: 'so tired',
+    image: '/images/image-1636588975983.png',
+    slideIndex: 2,
+    song: '7E1boGBVKRPqbHuEDXXZ7D',
+    title: 'deux'
+  },
+  {
+    caption: 'wow it worked',
+    image: '/images/image-1636589004467.jpg',
     slideIndex: 3,
-    song: '7qPlIgFSsb48lbRXmmi9NB',
-    title: 'slide trois'
+    song: '6qz8wrOej4MNian3TFofgD',
+    title: 'trois'
   }
 ];
