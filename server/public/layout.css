@@ -57,6 +57,13 @@ body {
   border-radius: 10px;
 }
 
+.progress-bar-3 {
+  width: 65px;
+  height: 4px;
+  margin: 0 3px;
+  background-color: rgb(255 255 255 / 50%);
+}
+
 @media (min-width: 480px) {
   .overlay {
     background: rgb(0 0 0);
@@ -81,6 +88,10 @@ body {
 
   .message-slide {
     width: 480px;
+  }
+
+  .progress-bar-3 {
+    width: 85px;
   }
 }
 

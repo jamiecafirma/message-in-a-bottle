@@ -6,9 +6,21 @@ export default class ViewMessage extends React.Component {
     super(props);
     this.state = {
       bottleId: 3, // this should be this.context.bottleId
-      message: {}
+      message: {},
+      currentSlide: 0
     };
     this.handleClick = this.handleClick.bind(this);
+    this.carousel = this.carousel.bind(this);
+  }
+
+  carousel() {
+    const intervalId = setInterval(() => {
+      if (this.state.currentSlide > 3) {
+        clearInterval(intervalId);
+      } else {
+        this.setState({ currentSlide: this.state.currentSlide + 1 });
+      }
+    }, 10000);
   }
 
   handleClick() {
@@ -18,6 +30,7 @@ export default class ViewMessage extends React.Component {
 
   componentDidMount() {
     M.AutoInit();
+    // this.carousel();
 
     fetch(`/api/messages/${this.state.bottleId}`)
       .then(response => {
@@ -38,9 +51,9 @@ export default class ViewMessage extends React.Component {
     const { messageTitle, recipientName, senderName } = this.state.message;
     return (
       <>
-        <div className="overlay position-absolute"></div>
+        <div className="slides-overlay position-absolute"></div>
         <IntroSlide title={messageTitle} sender={senderName} recipient={recipientName} />
-        <RenderList entries={mementos} />
+        <RenderList entries={mementos} currentSlide={this.state.currentSlide} />
       </>
     );
   }
@@ -49,6 +62,13 @@ export default class ViewMessage extends React.Component {
 function IntroSlide(props) {
   return (
     <div className="message-slide intro-slide-bg pt-75">
+      <div className="progress-bar-container flex-wrap justify-center">
+        <div className="progress-bar-3"></div>
+        <div className="progress-bar-3"></div>
+        <div className="progress-bar-3"></div>
+        <div className="progress-bar-3"></div>
+        <div className="progress-bar-3"></div>
+      </div>
       <h1 className="font-size-48 text-center">{props.title}</h1>
       <h2 className="font-size-36 text-center">{`from ${props.sender}`}</h2>
       <h2 className="font-size-36 text-center">{`to ${props.recipient}`}</h2>
@@ -66,22 +86,26 @@ function IntroSlide(props) {
 }
 
 function ContentSlide(props) {
-  return (
-    <div className="padding-1rem message-slide content-slide-blue pt-75">
-      <h1 className="font-size-36 text-center no-margin-top">{props.memento.title}</h1>
-      <div className="row justify-center">
-        <img className="materialboxed img-container" src={props.memento.image} />
+  if (props.currentSlide !== props.slideIndex) {
+    return null;
+  } else {
+    return (
+      <div className="padding-1rem message-slide content-slide-yellow pt-75">
+        <h1 className="font-size-36 text-center no-margin-top">{props.memento.title}</h1>
+        <div className="row justify-center">
+          <img className="materialboxed img-container" src={props.memento.image} />
+        </div>
+        <p className="font-size-24 text-center">{props.memento.caption}</p>
       </div>
-      <p className="font-size-24 text-center">{props.memento.caption}</p>
-    </div>
-  );
+    );
+  }
 }
 
 function RenderList(props) {
   const entries = props.entries;
   const slideItems = entries.map(slide =>
     <li key={slide.slideIndex}>
-      <ContentSlide memento={slide} />
+      <ContentSlide memento={slide} slideIndex={slide.slideIndex} currentSlide={props.currentSlide} />
     </li>
   );
   return (
