@@ -1,21 +1,22 @@
 import React from 'react';
 import M from 'materialize-css';
+import AppContext from '../lib/app-context';
+import { Link } from 'react-router-dom';
 
 export default class ViewMessage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bottleId: 3, // this should be this.context.bottleId
+      bottleId: 3,
       message: {},
       currentSlide: 0
     };
-    this.handleClick = this.handleClick.bind(this);
     this.carousel = this.carousel.bind(this);
   }
 
   carousel() {
     const intervalId = setInterval(() => {
-      if (this.state.currentSlide > 3) {
+      if (this.state.currentSlide >= 3) {
         clearInterval(intervalId);
       } else {
         this.setState({ currentSlide: this.state.currentSlide + 1 });
@@ -23,13 +24,13 @@ export default class ViewMessage extends React.Component {
     }, 10000);
   }
 
-  handleClick() {
-    const instance = M.Carousel.getInstance(this.Carousel);
-    instance.next();
-  }
-
   componentDidMount() {
     M.AutoInit();
+
+    const paths = window.location.pathname.split('/');
+    const bottleId = parseInt(paths[4]);
+    this.setState({ bottleId: bottleId });
+
     // this.carousel();
 
     fetch(`/api/messages/${this.state.bottleId}`)
@@ -52,23 +53,21 @@ export default class ViewMessage extends React.Component {
     return (
       <>
         <div className="slides-overlay position-absolute"></div>
-        <IntroSlide title={messageTitle} sender={senderName} recipient={recipientName} />
-        <RenderList entries={mementos} currentSlide={this.state.currentSlide} />
+        <div>
+          <IntroSlide title={messageTitle} sender={senderName} recipient={recipientName} />
+          <RenderList entries={mementos} currentSlide={this.state.currentSlide} />
+        </div>
       </>
     );
   }
 }
 
+ViewMessage.contextType = AppContext;
+
 function IntroSlide(props) {
   return (
     <div className="message-slide intro-slide-bg pt-75">
-      <div className="progress-bar-container flex-wrap justify-center">
-        <div className="progress-bar-3"></div>
-        <div className="progress-bar-3"></div>
-        <div className="progress-bar-3"></div>
-        <div className="progress-bar-3"></div>
-        <div className="progress-bar-3"></div>
-      </div>
+      <Link to="/menu"><i className="material-icons position-absolute exit-slides">close</i></Link>
       <h1 className="font-size-48 text-center">{props.title}</h1>
       <h2 className="font-size-36 text-center">{`from ${props.sender}`}</h2>
       <h2 className="font-size-36 text-center">{`to ${props.recipient}`}</h2>
@@ -91,6 +90,7 @@ function ContentSlide(props) {
   } else {
     return (
       <div className="padding-1rem message-slide content-slide-yellow pt-75">
+        <Link to="/menu"><i className="material-icons position-absolute exit-slides">close</i></Link>
         <h1 className="font-size-36 text-center no-margin-top">{props.memento.title}</h1>
         <div className="row justify-center">
           <img className="materialboxed img-container" src={props.memento.image} />

@@ -11,7 +11,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentBottleId: 0
+      currentBottleId: 3
     };
     this.assignBottleId = this.assignBottleId.bind(this);
   }
@@ -37,7 +37,7 @@ export default class App extends React.Component {
               </Route>
               <Route path="/menu" element={<UserActionMenu />}>
               </Route>
-              <Route exact path="/view" element={<ViewMessage />}>
+              <Route path="/messages/:bottleId" element={<ViewMessage />}>
               </Route>
             </Routes>
           </BrowserRouter>
