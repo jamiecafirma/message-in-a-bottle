@@ -4,6 +4,10 @@ import M from 'materialize-css';
 export default class ViewMessage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      bottleId: 3, // this should be this.context.bottleId
+      message: null
+    };
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -14,6 +18,16 @@ export default class ViewMessage extends React.Component {
 
   componentDidMount() {
     M.AutoInit();
+
+    fetch(`/api/messages/${this.state.bottleId}`)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        // console.log(data);
+        this.setState({ message: data });
+      })
+      .catch(error => console.error('There was an unexpected error', error));
   }
 
   componentDidUpdate() {
