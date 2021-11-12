@@ -38,7 +38,7 @@ export default class App extends React.Component {
               </Route>
               <Route path="/menu" element={<UserActionMenu />}>
               </Route>
-              <Route path="/messages/:bottleId" element={<ViewMessageWithParams />}>
+              <Route path="/messages/:user/:bottleId" element={<ViewMessageWithParams />}>
               </Route>
               <Route path="/send" element={<SendMessage />}>
               </Route>

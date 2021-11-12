@@ -19,6 +19,7 @@ class ViewMessage extends React.Component {
     this.previousSlide = this.previousSlide.bind(this);
     this.state = {
       bottleId: 0,
+      isRecipient: false,
       message: null,
       currentSlide: 0,
       currentTimer: setInterval(this.carousel, 10000)
@@ -62,6 +63,11 @@ class ViewMessage extends React.Component {
 
     const { bottleId } = this.props.routeParams;
     this.setState({ bottleId: bottleId });
+    const { user } = this.props.routeParams;
+    if (user === 'recipient') {
+      this.setState({ isRecipient: true });
+    }
+
     const { assignBottleId } = this.context;
     assignBottleId(parseInt(bottleId));
 
@@ -88,8 +94,8 @@ class ViewMessage extends React.Component {
       <>
         <div className="slides-overlay position-absolute"></div>
         <div>
-          <IntroSlide nextSlide={this.nextSlide} title={messageTitle} sender={senderName} recipient={recipientName} />
-          <RenderList nextSlide={this.nextSlide} previousSlide={this.previousSlide} entries={mementos} currentSlide={this.state.currentSlide} />
+          <IntroSlide isRecipient={this.state.isRecipient} nextSlide={this.nextSlide} title={messageTitle} sender={senderName} recipient={recipientName} />
+          <RenderList isRecipient={this.state.isRecipient} nextSlide={this.nextSlide} previousSlide={this.previousSlide} entries={mementos} currentSlide={this.state.currentSlide} />
         </div>
       </>
     );
@@ -99,9 +105,15 @@ class ViewMessage extends React.Component {
 ViewMessage.contextType = AppContext;
 
 function IntroSlide(props) {
+  let redirect;
+  if (props.isRecipient) {
+    redirect = '/';
+  } else {
+    redirect = '/menu';
+  }
   return (
     <div className="message-slide intro-slide-bg pt-75">
-      <Link to="/menu"><i className="material-icons position-absolute exit-slides">close</i></Link>
+      <Link to={redirect}><i className="material-icons position-absolute exit-slides">close</i></Link>
       <div onClick={props.nextSlide} className="next"></div>
       <h1 className="font-size-48 text-center">{props.title}</h1>
       <h2 className="font-size-36 text-center">{`from ${props.sender}`}</h2>
@@ -123,9 +135,15 @@ function ContentSlide(props) {
   if (props.currentSlide !== props.slideIndex) {
     return null;
   } else {
+    let redirect;
+    if (props.isRecipient) {
+      redirect = '/';
+    } else {
+      redirect = '/menu';
+    }
     return (
       <div className="padding-1rem message-slide content-slide-yellow pt-75">
-        <Link to="/menu"><i className="material-icons position-absolute exit-slides">close</i></Link>
+        <Link to={redirect}><i className="material-icons position-absolute exit-slides">close</i></Link>
         <div onClick={props.nextSlide} className="next"></div>
         <div onClick={props.previousSlide} className="previous"></div>
         <h1 className="font-size-36 text-center no-margin-top">{props.memento.title}</h1>
