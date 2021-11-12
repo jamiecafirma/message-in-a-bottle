@@ -6,6 +6,7 @@ import SpotifyAuthRedirect from './pages/spotify-auth-redirect';
 import MessageForm from './pages/message-form';
 import UserActionMenu from './pages/user-action-menu';
 import ViewMessageWithParams from './pages/view-message';
+import SendMessage from './pages/send-message';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -38,6 +39,8 @@ export default class App extends React.Component {
               <Route path="/menu" element={<UserActionMenu />}>
               </Route>
               <Route path="/messages/:bottleId" element={<ViewMessageWithParams />}>
+              </Route>
+              <Route path="/send" element={<SendMessage />}>
               </Route>
             </Routes>
           </BrowserRouter>

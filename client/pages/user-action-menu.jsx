@@ -17,6 +17,12 @@ export default class UserActionMenu extends React.Component {
               <Link to={`/messages/${this.context.currentBottleId}`}><img src="/images/message-in-a-bottle.png" className="width-120" /></Link>
             </div>
           </div>
+          <div className="column-half">
+            <div className="row flex-column align-center">
+              <h1 className="font-size-36 no-margin text-center">Send</h1>
+              <Link to='/send'><img src="/images/wave.png" className="width-120" /></Link>
+            </div>
+          </div>
         </div>
       </>
     );
