@@ -5,6 +5,8 @@ const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
 const ClientError = require('./client-error.js');
 const uploadsMiddleware = require('./uploads-middleware');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -69,6 +71,24 @@ app.post('/api/messages', (req, res, next) => {
       res.status(201).json(result.rows[0]);
     })
     .catch(err => next(err));
+});
+
+app.post('/api/send', (req, res, next) => {
+  const msg = {
+    to: 'ahoysendgrid@gmail.com', // Change to your recipient
+    from: 'jamie.cafirma@gmail.com', // Change to your verified sender
+    subject: 'Sending with SendGrid is Fun',
+    text: 'and easy to do anywhere, even with Node.js',
+    html: '<strong>and easy to do anywhere, even with Node.js</strong>'
+  };
+  sgMail
+    .send(msg)
+    .then(() => {
+      res.status(200).json({ message: 'Email sent' });
+    })
+    .catch(error => {
+      console.error(error);
+    });
 });
 
 app.use(errorMiddleware);
