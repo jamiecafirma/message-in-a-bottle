@@ -152,6 +152,11 @@
   background-color: #fcca61;
 }
 
+.playlist-slide-bg {
+  background: rgb(195 66 228);
+  background: linear-gradient(135deg, rgb(195 66 228 / 100%) 0%, rgb(230 53 45 / 100%) 100%);
+}
+
 .img-container {
   object-fit: cover;
   width: 300px;
@@ -195,4 +200,22 @@
   position: absolute;
   bottom: 0;
   left: 0;
+}
+
+.search-container {
+  width: 240px;
+}
+
+#search-input {
+  background-color: white;
+  border-radius: 10px;
+  padding-left: 1rem;
+  width: 240px;
+}
+
+#search-icon {
+  color: #6cd9fa;
+  position: absolute;
+  right: 0;
+  bottom: 18px;
 }

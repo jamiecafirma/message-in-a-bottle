@@ -22,12 +22,13 @@ class ViewMessage extends React.Component {
       isRecipient: false,
       message: null,
       currentSlide: 0,
+      slideCount: 5,
       currentTimer: setInterval(this.carousel, 10000)
     };
   }
 
   carousel() {
-    if (this.state.currentSlide < this.state.message.mementos.length) {
+    if (this.state.currentSlide < this.state.slideCount - 1) {
       this.setState({ currentSlide: this.state.currentSlide + 1 });
     } else {
       clearInterval(this.currentTimer);
@@ -36,7 +37,7 @@ class ViewMessage extends React.Component {
 
   nextSlide(event) {
     clearInterval(this.state.currentTimer);
-    if (this.state.currentSlide < this.state.message.mementos.length) {
+    if (this.state.currentSlide < this.state.slideCount - 1) {
       this.setState({
         currentSlide: this.state.currentSlide + 1,
         currentTimer: setInterval(this.carousel, 10000)
@@ -77,6 +78,8 @@ class ViewMessage extends React.Component {
       })
       .then(data => {
         this.setState({ message: data });
+        this.setState({ slideCount: this.state.message.mementos.length + 2 });
+
       })
       .catch(error => console.error('There was an unexpected error', error));
   }
@@ -89,13 +92,14 @@ class ViewMessage extends React.Component {
     if (!this.state.message) {
       return null;
     }
-    const { messageTitle, recipientName, senderName, mementos } = this.state.message;
+    const { messageTitle, recipientName, senderName, mementos, playlistId } = this.state.message;
     return (
       <>
         <div className="slides-overlay position-absolute"></div>
         <div>
           <IntroSlide isRecipient={this.state.isRecipient} nextSlide={this.nextSlide} title={messageTitle} sender={senderName} recipient={recipientName} />
           <RenderList isRecipient={this.state.isRecipient} nextSlide={this.nextSlide} previousSlide={this.previousSlide} entries={mementos} currentSlide={this.state.currentSlide} />
+          <PlaylistSlide isRecipient={this.state.isRecipient} previousSlide={this.previousSlide} playlistId={playlistId} currentSlide={this.state.currentSlide} slideIndex={this.state.slideCount - 1} />
         </div>
       </>
     );
@@ -166,6 +170,29 @@ function RenderList(props) {
   return (
     <ul className="position-fixed">{slideItems}</ul>
   );
+}
+
+function PlaylistSlide(props) {
+  if (props.currentSlide !== props.slideIndex) {
+    return null;
+  } else {
+    let redirect;
+    if (props.isRecipient) {
+      redirect = '/';
+    } else {
+      redirect = '/menu';
+    }
+    return (
+      <div className="padding-1rem message-slide playlist-slide-bg pt-75">
+        <Link to={redirect}><i className="material-icons position-absolute exit-slides">close</i></Link>
+        <div onClick={props.previousSlide} className="previous"></div>
+        <h1 className="font-size-36 text-center no-margin-top">Save this playlist?</h1>
+        <div className="row justify-center padding-1rem">
+          <iframe src={`https://open.spotify.com/embed/playlist/${props.playlistId}?utm_source=generator`} width="100%" height="380" frameBorder="0" allowFullScreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+        </div>
+      </div>
+    );
+  }
 }
 
 const ViewMessageWithParams = injectUseParams(ViewMessage);
