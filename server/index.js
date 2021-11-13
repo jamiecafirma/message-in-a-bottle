@@ -91,12 +91,16 @@ app.post('/api/send', (req, res, next) => {
         throw new ClientError(404, `cannot find bottle with bottleId ${bottleId}`);
       } else {
         const { messageTitle, senderName, recipientName, recipientEmail } = bottle;
-        const messageUrl = `${process.env.APP_ORIGIN}/messages/recipient/${bottleId}`;
+        const messageUrl = `${process.env.APP_ORIGIN}/recipient`;
         const msg = {
           to: recipientEmail, // Change to your recipient
           from: 'messageforamatey@gmail.com', // Change to your verified sender
           subject: messageTitle,
-          html: `<a href=${messageUrl}}>Ahoy ${recipientName}, you have a message in a bottle from ${senderName}!</a>`
+          html: `
+          <p>Ahoy ${recipientName}, you have a message in a bottle from ${senderName}!</p>
+          <p>Bottle ID: <strong>${bottleId}</strong>.</p>
+          <a href=${messageUrl}>View your message!</a>
+          `
         };
         sgMail
           .send(msg)
