@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import AppContext from '../lib/app-context';
 
 function injectUseParams(Component) {
@@ -107,7 +107,7 @@ function LoginSuccess(props) {
   if (props.user === 'sender') {
     action = <SendToCreate />;
   } else if (props.user === 'recipient') {
-    action = <SendToMessage />;
+    action = <SendToMessageWithNavigate />;
   }
   return (
     <>
@@ -129,19 +129,52 @@ function SendToCreate(props) {
   );
 }
 
-function SendToMessage(props) {
-  return (
-    <>
-      <h2 className="font-size-24 text-center">Enter your bottle id to find your message!</h2>
-      <form className="full-width justify-center">
-        <div className="non-static search-container">
-          <input id="search-input" type="text" placeholder="your bottle id"></input>
-          <i id="search-icon" className="material-icons">search</i>
-        </div>
-      </form>
-    </>
-  );
+function injectNavigate(Component) {
+  const InjectedNavigate = function (props) {
+    const navigate = useNavigate();
+    return <Component {...props} navigate={navigate} />;
+  };
+  return InjectedNavigate;
 }
+
+class SendToMessage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bottleId: ''
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({ bottleId: parseInt(event.target.value) });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.context.assignBottleId(this.state.bottleId);
+    this.props.navigate(`/messages/recipient/${this.state.bottleId}`);
+  }
+
+  render() {
+    return (
+      <>
+        <h2 className="font-size-24 text-center">Enter your bottle id to find your message!</h2>
+        <form onSubmit={this.handleSubmit} className="full-width justify-center">
+          <div className="non-static search-container">
+            <input onChange={this.handleChange} name="bottle-id" value={this.state.bottleId} id="search-input" type="text" placeholder="your bottle id"></input>
+            <i onClick={this.handleSubmit} id="search-icon" className="material-icons">search</i>
+          </div>
+        </form>
+      </>
+    );
+  }
+}
+
+SendToMessage.contextType = AppContext;
+
+const SendToMessageWithNavigate = injectNavigate(SendToMessage);
 
 function LoginError(props) {
   return (
