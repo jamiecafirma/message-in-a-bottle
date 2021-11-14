@@ -7,6 +7,7 @@ const ClientError = require('./client-error.js');
 const uploadsMiddleware = require('./uploads-middleware');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const fetch = require('node-fetch');
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -91,12 +92,16 @@ app.post('/api/send', (req, res, next) => {
         throw new ClientError(404, `cannot find bottle with bottleId ${bottleId}`);
       } else {
         const { messageTitle, senderName, recipientName, recipientEmail } = bottle;
-        const messageUrl = `${process.env.APP_ORIGIN}/messages/recipient/${bottleId}`;
+        const messageUrl = `${process.env.APP_ORIGIN}/recipient`;
         const msg = {
           to: recipientEmail, // Change to your recipient
           from: 'messageforamatey@gmail.com', // Change to your verified sender
           subject: messageTitle,
-          html: `<a href=${messageUrl}}>Ahoy ${recipientName}, you have a message in a bottle from ${senderName}!</a>`
+          html: `
+          <p>Ahoy ${recipientName}, you have a message in a bottle from ${senderName}!</p>
+          <p>Bottle ID: <strong>${bottleId}</strong>.</p>
+          <a href=${messageUrl}>View your message!</a>
+          `
         };
         sgMail
           .send(msg)
@@ -105,6 +110,25 @@ app.post('/api/send', (req, res, next) => {
           })
           .catch(err => next(err));
       }
+    })
+    .catch(err => next(err));
+});
+
+app.put('/api/playlist', (req, res, next) => {
+  const { playlistId, token } = req.body;
+  const init = {
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json'
+    },
+    method: 'PUT'
+  };
+  fetch(`https://api.spotify.com/v1/playlists/${playlistId}/followers`, init)
+    .then(result => {
+      return result.text();
+    })
+    .then(message => {
+      res.status(200).json({ message: 'Playlist followed' });
     })
     .catch(err => next(err));
 });

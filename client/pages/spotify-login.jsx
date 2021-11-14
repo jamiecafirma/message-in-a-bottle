@@ -41,23 +41,18 @@ export default class SpotifyLogin extends React.Component {
       .then(hash => {
         const codeChallenge = this.base64urlencode(hash);
         const authState = this.makeid(12);
+        const scope = 'user-read-playback-state user-modify-playback-state playlist-modify-public playlist-modify-private';
+        const redirectUri = this.props.callback;
         sessionStorage.setItem('spotify-code-verifier', codeVerifier);
         sessionStorage.setItem('spotify-state', authState);
-        const authURL = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.SPOTIFY_CLIENT_ID}&redirect_uri=http://localhost:3000/callback&state=${authState}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
+        const authURL = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.SPOTIFY_CLIENT_ID}&redirect_uri=${redirectUri}&state=${authState}&code_challenge=${codeChallenge}&code_challenge_method=S256&scope=${scope}`;
         window.open(authURL);
       });
   }
 
   render() {
     return (
-      <>
-      <div className="overlay position-absolute"></div>
-        <div className="row align-center flex-column position-absolute padding-3rem desktop-style">
-        <h1 className="font-size-48 no-margin">Ahoy Matey!</h1>
-          <h2 className="font-size-24 text-center">Click on the shell to connect your Spotify account</h2>
-        <a onClick={this.initiateSpotifyLogin}><img src="images/shell.png" className="width-80" /></a>
-      </div>
-      </>
+      <a onClick={this.initiateSpotifyLogin}><img src="images/shell.png" className="width-80" /></a>
     );
   }
 }
