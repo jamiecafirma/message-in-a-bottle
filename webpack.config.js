@@ -30,7 +30,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.EnvironmentPlugin(['SPOTIFY_CLIENT_ID'])
+    new webpack.EnvironmentPlugin(['SPOTIFY_CLIENT_ID', 'SPOTIFY_AUTH_CALLBACK_SENDER', 'SPOTIFY_AUTH_CALLBACK_RECIPIENT'])
   ],
   devtool: 'source-map',
   devServer: {

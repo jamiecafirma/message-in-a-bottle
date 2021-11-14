@@ -136,11 +136,6 @@ function IntroSlide(props) {
 }
 
 class ContentSlide extends React.Component {
-  // eslint-disable-next-line no-useless-constructor
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     if (this.props.currentSlide !== this.props.slideIndex) {
       return null;
@@ -174,7 +169,7 @@ function RenderList(props) {
   const entries = props.entries;
   const slideItems = entries.map(slide =>
     <li key={slide.slideIndex}>
-      <ContentSlide nextSlide={props.nextSlide} previousSlide={props.previousSlide} memento={slide} slideIndex={slide.slideIndex} currentSlide={props.currentSlide} />
+      <ContentSlide isRecipient={props.isRecipient} nextSlide={props.nextSlide} previousSlide={props.previousSlide} memento={slide} slideIndex={slide.slideIndex} currentSlide={props.currentSlide} />
     </li>
   );
   return (

@@ -27,11 +27,18 @@ class SpotifyAuthRedirect extends React.Component {
     const { user } = this.props.routeParams;
     this.setState({ user: user });
 
+    let redirect;
+    if (user === 'sender') {
+      redirect = process.env.SPOTIFY_AUTH_CALLBACK_SENDER;
+    } else if (user === 'recipient') {
+      redirect = process.env.SPOTIFY_AUTH_CALLBACK_RECIPIENT;
+    }
+
     const postBody = {
       client_id: process.env.SPOTIFY_CLIENT_ID,
       grant_type: 'authorization_code',
       code: authCode,
-      redirect_uri: `http://localhost:3000/callback/${user}`,
+      redirect_uri: redirect,
       code_verifier: sessionStorage.getItem('spotify-code-verifier')
     };
 
