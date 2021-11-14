@@ -7,6 +7,7 @@ const ClientError = require('./client-error.js');
 const uploadsMiddleware = require('./uploads-middleware');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const fetch = require('node-fetch');
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -109,6 +110,25 @@ app.post('/api/send', (req, res, next) => {
           })
           .catch(err => next(err));
       }
+    })
+    .catch(err => next(err));
+});
+
+app.put('/api/playlist', (req, res, next) => {
+  const { playlistId, token } = req.body;
+  const init = {
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json'
+    },
+    method: 'PUT'
+  };
+  fetch(`https://api.spotify.com/v1/playlists/${playlistId}/followers`, init)
+    .then(result => {
+      return result.text();
+    })
+    .then(message => {
+      res.status(200).json({ message: 'Playlist followed' });
     })
     .catch(err => next(err));
 });

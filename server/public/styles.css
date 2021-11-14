@@ -50,6 +50,10 @@
   font-size: 16px;
 }
 
+.width-60 {
+  width: 60px;
+}
+
 .width-80 {
   width: 80px;
 }
@@ -86,6 +90,10 @@
   padding-right: 1rem;
 }
 
+.pl-1rem {
+  padding-left: 1rem;
+}
+
 .padding-3rem {
   padding: 3rem;
 }
@@ -112,6 +120,10 @@
 
 .mt-40 {
   margin-top: 40px;
+}
+
+.mb-12 {
+  margin-bottom: 12px;
 }
 
 .mb-24 {
@@ -187,7 +199,7 @@
 }
 
 .next {
-  width: 50%;
+  width: 25%;
   height: 90%;
   position: absolute;
   bottom: 0;
@@ -195,7 +207,7 @@
 }
 
 .previous {
-  width: 50%;
+  width: 25%;
   height: 90%;
   position: absolute;
   bottom: 0;

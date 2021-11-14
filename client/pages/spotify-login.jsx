@@ -41,7 +41,7 @@ export default class SpotifyLogin extends React.Component {
       .then(hash => {
         const codeChallenge = this.base64urlencode(hash);
         const authState = this.makeid(12);
-        const scope = 'user-read-playback-state user-modify-playback-state';
+        const scope = 'user-read-playback-state user-modify-playback-state playlist-modify-public playlist-modify-private';
         const redirectUri = this.props.callback;
         sessionStorage.setItem('spotify-code-verifier', codeVerifier);
         sessionStorage.setItem('spotify-state', authState);
