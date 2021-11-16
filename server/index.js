@@ -52,7 +52,7 @@ app.get('/api/messages/:bottleId', (req, res, next) => {
 });
 
 app.post('/api/uploads', uploadsMiddleware, (req, res, next) => {
-  const url = `/images/${req.file.filename}`;
+  const url = req.file.location;
   res.status(201).json({ imageUrl: url });
 });
 
