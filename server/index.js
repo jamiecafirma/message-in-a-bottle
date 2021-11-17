@@ -8,6 +8,7 @@ const uploadsMiddleware = require('./uploads-middleware');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const fetch = require('node-fetch');
+const path = require('path');
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -131,6 +132,12 @@ app.put('/api/playlist', (req, res, next) => {
       res.status(200).json({ message: 'Playlist followed' });
     })
     .catch(err => next(err));
+});
+
+app.use((req, res) => {
+  res.sendFile('/index.html', {
+    root: path.join(__dirname, 'public')
+  });
 });
 
 app.use(errorMiddleware);
