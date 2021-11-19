@@ -4,6 +4,9 @@ export default class SpotifyLogin extends React.Component {
   constructor(props) {
     super(props);
     this.initiateSpotifyLogin = this.initiateSpotifyLogin.bind(this);
+    this.state = {
+      url: ''
+    };
   }
 
   makeid(length) {
@@ -46,13 +49,19 @@ export default class SpotifyLogin extends React.Component {
         sessionStorage.setItem('spotify-code-verifier', codeVerifier);
         sessionStorage.setItem('spotify-state', authState);
         const authURL = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.SPOTIFY_CLIENT_ID}&redirect_uri=${redirectUri}&state=${authState}&code_challenge=${codeChallenge}&code_challenge_method=S256&scope=${scope}`;
-        window.open(authURL);
+        this.setState({
+          url: authURL
+        });
       });
+  }
+
+  componentDidMount() {
+    this.initiateSpotifyLogin();
   }
 
   render() {
     return (
-      <button className="button-style no-autoinit" onClick={this.initiateSpotifyLogin}><img src="images/shell.png" className="width-80" /></button>
+      <a href={this.state.url}><img src="images/shell.png" className="width-80" /></a>
     );
   }
 }
