@@ -190,7 +190,7 @@ function LoginError(props) {
       <div className="row align-center flex-column position-absolute padding-3rem desktop-style">
         <h1 className="font-size-36 no-margin text-center">Unable to login to Spotify</h1>
         <h2 className="font-size-24 text-center">Click on the parrot to go back!</h2>
-        <Link to="/"><img src="images/parrot.png" className="width-100" /></Link>
+        <Link to="/"><img src="/images/parrot.png" className="width-100" /></Link>
       </div>
     </>
   );
