@@ -52,7 +52,7 @@ export default class SpotifyLogin extends React.Component {
 
   render() {
     return (
-      <a onClick={this.initiateSpotifyLogin}><img src="images/shell.png" className="width-80" /></a>
+      <button className="button-style no-autoinit" onClick={this.initiateSpotifyLogin}><img src="images/shell.png" className="width-80" /></button>
     );
   }
 }

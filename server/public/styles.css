@@ -231,3 +231,12 @@
   right: 0;
   bottom: 18px;
 }
+
+.button-style {
+  border: none;
+  background: none;
+}
+
+.button-style:focus {
+  background: none;
+}

@@ -59,7 +59,7 @@ export default class SendMessage extends React.Component {
           <div className="row align-center flex-column position-absolute padding-3rem desktop-style">
             <h1 className="font-size-48 no-margin">Send message to</h1>
             <h2 className="font-size-36 text-center">{`${this.state.recipientEmail}?`}</h2>
-            <a onClick={this.handleClick}><img src="/images/wave.png" className="width-120" /></a>
+            <button onClick={this.handleClick}><img src="/images/wave.png" className="width-120" /></button>
             <h1 className="font-size-36 no-margin text-center mb-24">Click the wave to confirm</h1>
             <Link to="/menu"><img src="/images/parrot.png" className="width-120" /></Link>
             <h1 className="font-size-36 no-margin text-center">Go back?</h1>
