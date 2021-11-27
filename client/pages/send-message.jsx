@@ -6,6 +6,8 @@ export default class SendMessage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      error: null,
+      isLoading: true,
       bottleId: 0,
       recipientEmail: null,
       emailSent: false
@@ -24,6 +26,7 @@ export default class SendMessage extends React.Component {
       .then(data => {
         const { recipientEmail } = data;
         this.setState({ recipientEmail: recipientEmail });
+        this.setState({ isLoading: false });
       })
       .catch(error => console.error('There was an unexpected error', error));
   }
@@ -42,7 +45,12 @@ export default class SendMessage extends React.Component {
         return response.json();
       })
       .then(data => {
-        this.setState({ emailSent: true });
+        if (data.error) {
+          this.setState({ error: data.error });
+        } else {
+          this.setState({ emailSent: true });
+        }
+        this.setState({ isLoading: false });
       })
       .catch(error => {
         console.error('There was an unexpected error', error);
@@ -50,8 +58,37 @@ export default class SendMessage extends React.Component {
   }
 
   render() {
-    if (!this.state.recipientEmail) {
-      return null;
+    if (this.state.isLoading) {
+      return (
+        <>
+          <div className="overlay position-absolute"></div>
+          <div className="row align-center flex-column position-absolute padding-3rem desktop-style absolute-center">
+            <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
+          </div>
+        </>
+      );
+    } else if (!this.state.recipientEmail) {
+      return (
+        <>
+          <div className="overlay position-absolute"></div>
+          <div className="row align-center flex-column position-absolute padding-3rem desktop-style">
+            <h1 className="font-size-36 no-margin text-center">{'Unable to find recipient\'s email!'}</h1>
+            <h2 className="font-size-24 text-center">Click on the parrot to go back!</h2>
+            <Link to='/menu'><img src="/images/parrot.png" className="width-100" /></Link>
+          </div>
+        </>
+      );
+    } else if (this.state.error) {
+      return (
+        <>
+          <div className="overlay position-absolute"></div>
+          <div className="row align-center flex-column position-absolute padding-3rem desktop-style">
+            <h1 className="font-size-36 no-margin text-center">Unable to send email!</h1>
+            <h2 className="font-size-24 text-center">Click on the parrot to go back!</h2>
+            <Link to='/menu'><img src="/images/parrot.png" className="width-100" /></Link>
+          </div>
+        </>
+      );
     } else if (!this.state.emailSent) {
       return (
         <>

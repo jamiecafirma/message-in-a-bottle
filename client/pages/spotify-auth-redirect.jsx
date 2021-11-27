@@ -72,10 +72,12 @@ class SpotifyAuthRedirect extends React.Component {
               const username = profile.display_name;
               this.setState({ username: username });
               this.setState({ signedIn: true });
+              this.setState({ isAuthorizing: false });
             });
         })
         .catch(error => {
           console.error('There was an unexpected error', error);
+          this.setState({ isAuthorizing: false });
         });
     }
   }
@@ -89,7 +91,9 @@ class SpotifyAuthRedirect extends React.Component {
     }
 
     let loginResult;
-    if (this.state.signedIn) {
+    if (this.state.isAuthorizing) {
+      loginResult = <LoadingSpinner />;
+    } else if (this.state.signedIn) {
       loginResult = <LoginSuccess name={showName} user={this.state.user} />;
     } else {
       loginResult = <LoginError name={showName} />;
@@ -191,6 +195,17 @@ function LoginError(props) {
         <h1 className="font-size-36 no-margin text-center">Unable to login to Spotify</h1>
         <h2 className="font-size-24 text-center">Click on the parrot to go back!</h2>
         <Link to="/"><img src="/images/parrot.png" className="width-100" /></Link>
+      </div>
+    </>
+  );
+}
+
+function LoadingSpinner(props) {
+  return (
+    <>
+      <div className="overlay position-absolute"></div>
+      <div className="row align-center flex-column position-absolute padding-3rem desktop-style absolute-center">
+        <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
       </div>
     </>
   );

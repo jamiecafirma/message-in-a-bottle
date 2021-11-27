@@ -39,13 +39,13 @@ app.get('/api/messages/:bottleId', (req, res, next) => {
   db.query(sql, params)
     .then(result => {
       const [bottle] = result.rows;
-      const { mementos } = bottle;
-      const messageMementos = mementos.mementos;
-      const message = { ...bottle };
-      message.mementos = messageMementos;
       if (!bottle) {
         throw new ClientError(404, `cannot find bottle with bottleId ${bottleId}`);
       } else {
+        const { mementos } = bottle;
+        const messageMementos = mementos.mementos;
+        const message = { ...bottle };
+        message.mementos = messageMementos;
         res.json(message);
       }
     })
@@ -95,8 +95,8 @@ app.post('/api/send', (req, res, next) => {
         const { messageTitle, senderName, recipientName, recipientEmail } = bottle;
         const messageUrl = `${process.env.APP_ORIGIN}recipient`;
         const msg = {
-          to: recipientEmail, // Change to your recipient
-          from: 'messageforamatey@gmail.com', // Change to your verified sender
+          to: recipientEmail,
+          from: 'messageforamatey@gmail.com',
           subject: messageTitle,
           html: `
           <p>Ahoy ${recipientName}, you have a message in a bottle from ${senderName}!</p>
