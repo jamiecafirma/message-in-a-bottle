@@ -18,6 +18,8 @@ class ViewMessage extends React.Component {
     this.nextSlide = this.nextSlide.bind(this);
     this.previousSlide = this.previousSlide.bind(this);
     this.state = {
+      error: null,
+      isLoading: true,
       bottleId: 0,
       isRecipient: false,
       message: null,
@@ -77,11 +79,18 @@ class ViewMessage extends React.Component {
         return response.json();
       })
       .then(data => {
-        this.setState({ message: data });
-        this.setState({ slideCount: this.state.message.mementos.length + 2 });
-
+        if (data.error) {
+          this.setState({ error: data.error });
+          this.setState({ isLoading: false });
+        } else {
+          this.setState({ message: data });
+          this.setState({ isLoading: false });
+          this.setState({ slideCount: this.state.message.mementos.length + 2 });
+        }
       })
-      .catch(error => console.error('There was an unexpected error', error));
+      .catch(error => {
+        console.error('There was an unexpected error', error);
+      });
   }
 
   componentDidUpdate() {
@@ -89,20 +98,45 @@ class ViewMessage extends React.Component {
   }
 
   render() {
-    if (!this.state.message) {
-      return null;
+    if (this.state.isLoading) {
+      return (
+        <>
+          <div className="overlay position-absolute"></div>
+          <div className="row align-center flex-column position-absolute padding-3rem desktop-style absolute-center">
+            <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
+          </div>
+        </>
+      );
+    } else if (this.state.error) {
+      let redirect;
+      if (this.state.isRecipient) {
+        redirect = '/recipient';
+      } else {
+        redirect = '/';
+      }
+      return (
+        <>
+          <div className="overlay position-absolute"></div>
+          <div className="row align-center flex-column position-absolute padding-3rem desktop-style">
+            <h1 className="font-size-36 no-margin text-center">Unable to find message!</h1>
+            <h2 className="font-size-24 text-center">Click on the parrot to go back!</h2>
+            <Link to={redirect}><img src="/images/parrot.png" className="width-100" /></Link>
+          </div>
+        </>
+      );
+    } else {
+      const { messageTitle, recipientName, senderName, mementos, playlistId } = this.state.message;
+      return (
+        <>
+          <div className="slides-overlay position-absolute"></div>
+          <div>
+            <IntroSlide isRecipient={this.state.isRecipient} nextSlide={this.nextSlide} title={messageTitle} sender={senderName} recipient={recipientName} />
+            <RenderList isRecipient={this.state.isRecipient} nextSlide={this.nextSlide} previousSlide={this.previousSlide} entries={mementos} currentSlide={this.state.currentSlide} />
+            <PlaylistSlide isRecipient={this.state.isRecipient} previousSlide={this.previousSlide} playlistId={playlistId} currentSlide={this.state.currentSlide} slideIndex={this.state.slideCount - 1} />
+          </div>
+        </>
+      );
     }
-    const { messageTitle, recipientName, senderName, mementos, playlistId } = this.state.message;
-    return (
-      <>
-        <div className="slides-overlay position-absolute"></div>
-        <div>
-          <IntroSlide isRecipient={this.state.isRecipient} nextSlide={this.nextSlide} title={messageTitle} sender={senderName} recipient={recipientName} />
-          <RenderList isRecipient={this.state.isRecipient} nextSlide={this.nextSlide} previousSlide={this.previousSlide} entries={mementos} currentSlide={this.state.currentSlide} />
-          <PlaylistSlide isRecipient={this.state.isRecipient} previousSlide={this.previousSlide} playlistId={playlistId} currentSlide={this.state.currentSlide} slideIndex={this.state.slideCount - 1} />
-        </div>
-      </>
-    );
   }
 }
 

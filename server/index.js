@@ -39,13 +39,13 @@ app.get('/api/messages/:bottleId', (req, res, next) => {
   db.query(sql, params)
     .then(result => {
       const [bottle] = result.rows;
-      const { mementos } = bottle;
-      const messageMementos = mementos.mementos;
-      const message = { ...bottle };
-      message.mementos = messageMementos;
       if (!bottle) {
         throw new ClientError(404, `cannot find bottle with bottleId ${bottleId}`);
       } else {
+        const { mementos } = bottle;
+        const messageMementos = mementos.mementos;
+        const message = { ...bottle };
+        message.mementos = messageMementos;
         res.json(message);
       }
     })
