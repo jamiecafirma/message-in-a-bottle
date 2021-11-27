@@ -2,11 +2,6 @@
   content: none;
 }
 
-.flex-wrap {
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .justify-center {
   display: flex;
   justify-content: center;
@@ -44,10 +39,6 @@
 
 .font-size-24 {
   font-size: 24px !important;
-}
-
-.font-size-16 {
-  font-size: 16px;
 }
 
 .width-60 {
@@ -181,16 +172,6 @@
   height: 100vh;
 }
 
-.progress-bar-container {
-  position: absolute;
-  top: 8px;
-  width: 100%;
-}
-
-.progress-bar.active {
-  background-color: white;
-}
-
 .exit-slides {
   top: 10px;
   right: 12px;
@@ -230,15 +211,6 @@
   position: absolute;
   right: 0;
   bottom: 18px;
-}
-
-.button-style {
-  border: none;
-  background: none;
-}
-
-.button-style:focus {
-  background: none;
 }
 
 .absolute-center {
