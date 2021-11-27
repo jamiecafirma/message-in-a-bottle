@@ -95,8 +95,8 @@ app.post('/api/send', (req, res, next) => {
         const { messageTitle, senderName, recipientName, recipientEmail } = bottle;
         const messageUrl = `${process.env.APP_ORIGIN}recipient`;
         const msg = {
-          to: recipientEmail, // Change to your recipient
-          from: 'messageforamatey@gmail.com', // Change to your verified sender
+          to: recipientEmail,
+          from: 'messageforamatey@gmail.com',
           subject: messageTitle,
           html: `
           <p>Ahoy ${recipientName}, you have a message in a bottle from ${senderName}!</p>
