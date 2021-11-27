@@ -8,6 +8,7 @@ import UserActionMenu from './pages/user-action-menu';
 import ViewMessageWithParams from './pages/view-message';
 import SendMessage from './pages/send-message';
 import RecipientStart from './pages/recipient-start';
+import MessageError from './pages/message-error';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -44,6 +45,8 @@ export default class App extends React.Component {
               <Route path="/callback/:user" element={<SpotifyAuthRedirectWithParams />}>
               </Route>
               <Route path="/api/messages" element={<MessageForm />}>
+              </Route>
+              <Route path="/error" element={<MessageError />}>
               </Route>
               <Route path="/menu" element={<UserActionMenu />}>
               </Route>

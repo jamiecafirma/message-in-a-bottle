@@ -20,6 +20,7 @@ class SlideForm extends React.Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.getSongId = this.getSongId.bind(this);
     this.state = {
+      error: null,
       title: '',
       caption: '',
       image: '',
@@ -92,9 +93,14 @@ class SlideForm extends React.Component {
         return response.json();
       })
       .then(data => {
-        const { bottleId } = data;
-        assignBottleId(bottleId);
-        this.props.navigate('/menu');
+        if (data.error) {
+          this.setState({ error: data.error });
+          this.props.navigate('/error');
+        } else {
+          const { bottleId } = data;
+          assignBottleId(bottleId);
+          this.props.navigate('/menu');
+        }
       })
       .catch(error => {
         console.error('There was an unexpected error', error);
