@@ -51,7 +51,7 @@ Save a playlist from a message to your Spotify account:
 
 - Node.js 10 or higher
 - NPM 6 or higher
-- React Router DOM 6 or higher
+- PostgreSQL 12.6 or higher
 
 ### Getting Started
 
