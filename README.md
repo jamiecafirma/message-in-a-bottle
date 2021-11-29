@@ -27,7 +27,7 @@ Try the application live at [https://message-in-a-bottle-for-mateys.herokuapp.co
 
 - User can connect their Spotify account.
 - User can create a message in a bottle.
-- User can add songs and a playlist from Spotufy to their message.
+- User can add songs and a playlist from Spotify to their message.
 - User can view the message they made.
 - User can send the message to someone and the recipient gets an email with a link to it.
 - User can open a message sent to them.
